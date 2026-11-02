@@ -206,8 +206,8 @@
 
   function onTogglePointerMove(e) {
     if (!dragging) return;
-    const nx = e.clientX - dragOffset.x;
-    const ny = e.clientY - dragOffset.y;
+    const nx = Math.max(0, Math.min(window.innerWidth - 40, e.clientX - dragOffset.x));
+    const ny = Math.max(0, Math.min(window.innerHeight - 40, e.clientY - dragOffset.y));
     if (togglePos.x !== null && Math.hypot(nx - togglePos.x, ny - togglePos.y) > 5) justDragged = true;
     togglePos = { x: nx, y: ny };
   }
