@@ -81,9 +81,9 @@ android {
         applicationId = "com.betterdeepseek.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 12
+        versionCode = 14
         // Keep in sync with package.json "version" and static/manifest.json "version".
-        versionName = "0.1.16"
+        versionName = "0.1.20"
         buildConfigField("long", "BUILD_ID", "${bdsBuildId}L")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -91,6 +91,7 @@ android {
     buildTypes {
         debug {
             isMinifyEnabled = false
+            applicationIdSuffix = ".debug"
         }
         signingConfigs {
             create("release") {
@@ -98,6 +99,7 @@ android {
                 storePassword = System.getenv("BDS_KEYSTORE_PASSWORD") ?: ""
                 keyAlias = System.getenv("BDS_KEY_ALIAS") ?: ""
                 keyPassword = System.getenv("BDS_KEY_PASSWORD") ?: ""
+                storeType = "PKCS12"
             }
         }
         release {
