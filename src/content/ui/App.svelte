@@ -194,6 +194,7 @@
   let dragging = false;
   let dragOffset = { x: 0, y: 0 };
 
+  let togglePos = $state({ x: null, y: null });
   let justDragged = false;
 
   function onTogglePointerDown(e) {
