@@ -99,6 +99,7 @@ android {
                 storePassword = System.getenv("BDS_KEYSTORE_PASSWORD") ?: ""
                 keyAlias = System.getenv("BDS_KEY_ALIAS") ?: ""
                 keyPassword = System.getenv("BDS_KEY_PASSWORD") ?: ""
+                storeType = "PKCS12"
             }
         }
         release {
