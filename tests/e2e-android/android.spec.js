@@ -564,3 +564,11 @@ test("persists settings via the AndroidBridge storage mock", async ({ page }) =>
   });
   expect(stored).not.toBeNull();
 });
+
+test("opens drawer and exposes all settings sections on Android", async ({ page }) => {
+  await openDrawer(page);
+  const drawer = page.locator("#bds-drawer");
+  for (const label of ["Settings", "MCP", "Memory", "Skills", "Characters", "Projects", "Prompt"]) {
+    await expect(drawer).toContainText(new RegExp(label, "i"));
+  }
+});
