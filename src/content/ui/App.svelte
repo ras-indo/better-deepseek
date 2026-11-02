@@ -205,12 +205,17 @@
     e.currentTarget.setPointerCapture(e.pointerId);
   }
 
+  let rafId = null;
   function onTogglePointerMove(e) {
     if (!dragging) return;
-    const nx = Math.max(0, Math.min(window.innerWidth - 40, e.clientX - dragOffset.x));
-    const ny = Math.max(0, Math.min(window.innerHeight - 40, e.clientY - dragOffset.y));
-    if (togglePos.x !== null && Math.hypot(nx - togglePos.x, ny - togglePos.y) > 5) justDragged = true;
-    togglePos = { x: nx, y: ny };
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      rafId = null;
+      const nx = Math.max(0, Math.min(window.innerWidth - 40, e.clientX - dragOffset.x));
+      const ny = Math.max(0, Math.min(window.innerHeight - 40, e.clientY - dragOffset.y));
+      if (togglePos.x !== null && Math.hypot(nx - togglePos.x, ny - togglePos.y) > 5) justDragged = true;
+      togglePos = { x: nx, y: ny };
+    });
   }
 
   function onTogglePointerUp(e) {
