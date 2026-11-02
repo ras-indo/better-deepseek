@@ -1986,17 +1986,17 @@ textarea.bds-input,
     z-index: 999990;
   }
 
-  /* Toggle: small semi-transparent circle — unintrusive at top-center */
+  /* Toggle: comfortable touch target (>=40px) while staying unintrusive */
   #bds-toggle {
-    width: 22px;
-    height: 22px;
+    width: 40px;
+    height: 40px;
     padding: 0;
     border-radius: 50%;
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0;
     margin-bottom: 0;
-    opacity: 0.4;
+    opacity: 0.55;
     transition: opacity 0.2s ease;
   }
 
@@ -2008,24 +2008,29 @@ textarea.bds-input,
   .bds-toggle-full { display: none; }
   .bds-toggle-short { display: inline; }
 
-  /* Drawer: full-width top sheet, slides down */
+  /* Drawer: bottom sheet (modern mobile pattern) */
   #bds-drawer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
     max-width: 100%;
     margin: 0;
-    border-radius: 0 0 16px 16px;
+    border-radius: 16px 16px 0 0;
     border-top: none;
     border-left: none;
     border-right: none;
-    max-height: 80dvh;
+    max-height: 85dvh;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   #bds-drawer.bds-open {
-    animation: bds-slide-down 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: bds-slide-up 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  @keyframes bds-slide-down {
-    from { transform: translateY(-40px); opacity: 0; }
+  @keyframes bds-slide-up {
+    from { transform: translateY(40px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
   }
 
