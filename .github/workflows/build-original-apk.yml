@@ -21,12 +21,9 @@ jobs:
       - name: Write local.properties
         working-directory: android
         run: printf 'sdk.dir=%s\n' "$ANDROID_HOME" > local.properties
-      - name: Make gradlew executable
-        working-directory: android
-        run: chmod +x ./gradlew
       - name: Assemble Debug
         working-directory: android
-        run: ./gradlew --no-daemon assembleDebug -x lint
+        run: gradle --no-daemon assembleDebug -x lint
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
