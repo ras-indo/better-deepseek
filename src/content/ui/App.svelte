@@ -201,7 +201,7 @@
     justDragged = false;
     const rect = e.currentTarget.getBoundingClientRect();
     dragOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    e.currentTarget.setPointerCapture(e.pointerId);
   }
 
   function onTogglePointerMove(e) {
