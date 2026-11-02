@@ -168,6 +168,7 @@
   }
 
   async function toggleDrawer() {
+    if (justDragged) return;
     if (drawerOpen) {
       if (drawerRef && drawerRef.handleClose) {
         await drawerRef.handleClose();
@@ -178,6 +179,47 @@
       drawerOpen = true;
     }
   }
+
+  function loadTogglePos() {
+    try {
+      const raw = localStorage.getItem('bds-toggle-pos');
+      if (raw) togglePos = JSON.parse(raw);
+    } catch {}
+  }
+
+  function saveTogglePos() {
+    try { localStorage.setItem('bds-toggle-pos', JSON.stringify(togglePos)); } catch {}
+  }
+
+  let dragging = false;
+  let dragOffset = { x: 0, y: 0 };
+
+  let justDragged = false;
+
+  function onTogglePointerDown(e) {
+    dragging = true;
+    justDragged = false;
+    const rect = e.currentTarget.getBoundingClientRect();
+    dragOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  }
+
+  function onTogglePointerMove(e) {
+    if (!dragging) return;
+    const nx = e.clientX - dragOffset.x;
+    const ny = e.clientY - dragOffset.y;
+    if (togglePos.x !== null && Math.hypot(nx - togglePos.x, ny - togglePos.y) > 5) justDragged = true;
+    togglePos = { x: nx, y: ny };
+  }
+
+  function onTogglePointerUp(e) {
+    if (!dragging) return;
+    dragging = false;
+    saveTogglePos();
+    setTimeout(() => { justDragged = false; }, 0);
+  }
+
+  loadTogglePos();
 
   function closeDrawer() {
     drawerOpen = false;
@@ -216,7 +258,7 @@
   });
 </script>
 
-<button id="bds-toggle" type="button" onclick={toggleDrawer} aria-label="Better DeepSeek">
+<button id="bds-toggle" type="button" onclick={toggleDrawer} onpointerdown={onTogglePointerDown} onpointermove={onTogglePointerMove} onpointerup={onTogglePointerUp} style={togglePos.x !== null ? `left:${togglePos.x}px; top:${togglePos.y}px; right:auto; bottom:auto;` : ''} aria-label="Better DeepSeek">
   <span class="bds-toggle-full" aria-hidden="true">BDS</span>
   <span class="bds-toggle-short" aria-hidden="true">B</span>
 </button>
